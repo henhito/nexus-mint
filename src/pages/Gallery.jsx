@@ -15,7 +15,7 @@ export default function Gallery() {
 
   useEffect(() => {
     const load = async () => {
-      const records = await base44.entities.MintRecord.list("-created_date", 100);
+      const records = await base44.entities.MintRequest.list("-created_date", 100);
       setMints(records);
       setLoading(false);
     };

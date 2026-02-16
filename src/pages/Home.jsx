@@ -61,7 +61,7 @@ export default function Home() {
           >
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full glass text-xs font-medium text-purple-300 mb-6">
               <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-              Live on Polygon Amoy Testnet
+              Live on Polygon Amoy • OAuth-Only Login
             </div>
 
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.1] tracking-tight mb-6">
@@ -73,8 +73,8 @@ export default function Home() {
             </h1>
 
             <p className="text-lg text-white/40 leading-relaxed max-w-lg mb-8">
-              No gas fees. No crypto wallet required. Sign in with Google or Microsoft,
-              provide your wallet address, and we handle the rest.
+              No gas fees. No crypto wallet required. Sign in with Google or Facebook,
+              provide your wallet address, and we sponsor the transaction server-side.
             </p>
 
             <div className="flex flex-wrap items-center gap-4">

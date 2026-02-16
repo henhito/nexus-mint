@@ -32,11 +32,11 @@ export default function Mint() {
         const u = await base44.auth.me();
         setUser(u);
         // Load user's mint history
-        const mints = await base44.entities.MintRecord.filter({ created_by: u.email });
+        const mints = await base44.entities.MintRequest.filter({ created_by: u.email });
         setUserMints(mints);
       }
       // Load total minted count
-      const allMints = await base44.entities.MintRecord.filter({ status: "confirmed" });
+      const allMints = await base44.entities.MintRequest.filter({ status: "confirmed" });
       setTotalMinted(allMints.length);
       setLoading(false);
     };
@@ -66,53 +66,36 @@ export default function Mint() {
 
     setIsMinting(true);
 
-    // Simulate the mint flow since backend functions aren't enabled
-    // In production, this would call a backend function that:
-    // 1. Verifies auth + rate limits
-    // 2. Uploads metadata to IPFS
-    // 3. Signs + sends the mint tx server-side
-    // 4. Returns tx hash + token details
-    
-    const nftNames = [
-      "Genesis Aurora", "Genesis Nebula", "Genesis Prism",
-      "Genesis Void", "Genesis Flux", "Genesis Echo",
-      "Genesis Drift", "Genesis Bloom", "Genesis Shade",
-      "Genesis Pulse"
-    ];
-    
-    const randomName = nftNames[Math.floor(Math.random() * nftNames.length)];
-    const tokenId = String(totalMinted + userMints.length + 1);
-    const fakeTxHash = "0x" + Array.from({ length: 64 }, () => Math.floor(Math.random() * 16).toString(16)).join("");
-
-    // Generate an NFT image via AI
-    let imageUrl = "";
     try {
-      const imgResult = await base44.integrations.Core.GenerateImage({
-        prompt: `Abstract digital art NFT, dark background with glowing purple and cyan neon geometric shapes, futuristic crystal formation, ethereal cosmic energy, minimalist style, named "${randomName}", high quality digital illustration`,
+      // Call backend function for gasless minting
+      const response = await base44.functions.invoke("mintNft", {
+        walletAddress: walletAddress,
       });
-      imageUrl = imgResult.url;
-    } catch (e) {
-      // Fallback — no image
-      imageUrl = "";
+
+      if (response.success) {
+        const mintData = response.mint;
+        
+        // Refresh user mints
+        const updatedMints = await base44.entities.MintRequest.filter({ created_by: user.email });
+        setUserMints(updatedMints);
+        setTotalMinted((prev) => prev + 1);
+
+        // Set result for display
+        setMintResult({
+          tx_hash: mintData.txHash,
+          token_id: mintData.tokenId,
+          nft_name: mintData.nftName,
+          image_url: mintData.imageUrl,
+          network: mintData.network,
+        });
+      } else {
+        setError(response.error || "Mint failed. Please try again.");
+      }
+    } catch (err) {
+      setError(err.message || "Failed to mint NFT. Please try again.");
+    } finally {
+      setIsMinting(false);
     }
-
-    // Create mint record
-    const record = await base44.entities.MintRecord.create({
-      wallet_address: walletAddress,
-      token_id: tokenId,
-      tx_hash: fakeTxHash,
-      network: "amoy",
-      metadata_uri: `ipfs://Qm${fakeTxHash.slice(2, 48)}`,
-      status: "confirmed",
-      mint_date: new Date().toISOString(),
-      image_url: imageUrl,
-      nft_name: randomName,
-    });
-
-    setMintResult(record);
-    setUserMints((prev) => [...prev, record]);
-    setTotalMinted((prev) => prev + 1);
-    setIsMinting(false);
   };
 
   if (loading) {
@@ -166,7 +149,7 @@ export default function Mint() {
             </div>
             <h3 className="text-xl font-semibold text-white mb-2">Sign In Required</h3>
             <p className="text-sm text-white/40 mb-6">
-              Connect with Google or Microsoft to start minting. No passwords stored.
+              Connect with Google or Facebook to start minting. OAuth-only, no passwords stored.
             </p>
             <Button
               onClick={() => base44.auth.redirectToLogin(window.location.href)}

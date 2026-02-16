@@ -7,7 +7,10 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { format } from "date-fns";
+import SecurityChecklist from "../components/admin/SecurityChecklist";
+import SetupInstructions from "../components/admin/SetupInstructions";
 
 export default function Admin() {
   const [user, setUser] = useState(null);
@@ -28,7 +31,7 @@ export default function Admin() {
       setIsAdmin(u.role === "admin");
 
       if (u.role === "admin") {
-        const records = await base44.entities.MintRecord.list("-created_date", 200);
+        const records = await base44.entities.MintRequest.list("-created_date", 200);
         setMints(records);
 
         const wallets = new Set(records.map((r) => r.wallet_address));
@@ -46,7 +49,7 @@ export default function Admin() {
   }, []);
 
   const handleDelete = async (id) => {
-    await base44.entities.MintRecord.delete(id);
+    await base44.entities.MintRequest.delete(id);
     setMints((prev) => prev.filter((m) => m.id !== id));
     setStats((prev) => ({ ...prev, total: prev.total - 1 }));
   };
@@ -112,47 +115,39 @@ export default function Admin() {
         ))}
       </div>
 
-      {/* Security info */}
+      {/* Tabs: Overview, Setup, Audit Logs */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
-        className="glass rounded-2xl p-6 mb-8"
+        className="mb-8"
       >
-        <h3 className="text-sm font-semibold text-white mb-3 flex items-center gap-2">
-          <Shield className="w-4 h-4 text-purple-400" />
-          Security & Deploy Checklist
-        </h3>
-        <div className="grid sm:grid-cols-2 gap-3 text-xs">
-          {[
-            { label: "OAuth PKCE Flow", status: "active", detail: "Google + Microsoft, state & nonce validated" },
-            { label: "Server-side Signing", status: "active", detail: "Private keys stored in env vars only" },
-            { label: "Rate Limiting", status: "active", detail: "3 per user, 100 global daily cap" },
-            { label: "IPFS Metadata", status: "active", detail: "Pinned via server-side upload" },
-            { label: "Network: Amoy Testnet", status: "active", detail: "Chain ID 80002, switch via env" },
-            { label: "No XSS Vectors", status: "active", detail: "No dangerouslySetInnerHTML, strict CSP" },
-          ].map((item) => (
-            <div key={item.label} className="flex items-start gap-2 p-2 rounded-lg bg-white/[0.02]">
-              <span className="w-2 h-2 rounded-full bg-green-400 mt-1 flex-shrink-0" />
-              <div>
-                <span className="text-white/70 font-medium">{item.label}</span>
-                <span className="text-white/30 ml-1">— {item.detail}</span>
-              </div>
-            </div>
-          ))}
-        </div>
-        <div className="mt-4 p-3 rounded-lg bg-yellow-500/5 border border-yellow-500/10">
-          <p className="text-xs text-yellow-400/80">
-            <strong>Deploy steps:</strong> 1) Deploy & test on Amoy testnet → 2) Audit smart contract → 3) Switch POLYGON_NETWORK env to "mainnet" → 4) Update CONTRACT_ADDRESS to mainnet address → 5) Verify on mainnet PolygonScan
-          </p>
-        </div>
+        <Tabs defaultValue="overview" className="w-full">
+          <TabsList className="grid w-full grid-cols-3 bg-white/[0.04]">
+            <TabsTrigger value="overview">Overview</TabsTrigger>
+            <TabsTrigger value="setup">Setup Guide</TabsTrigger>
+            <TabsTrigger value="audit">Audit Logs</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="overview" className="mt-6">
+            <SecurityChecklist />
+          </TabsContent>
+
+          <TabsContent value="setup" className="mt-6">
+            <SetupInstructions />
+          </TabsContent>
+
+          <TabsContent value="audit" className="mt-6">
+            <AuditLogsTable />
+          </TabsContent>
+        </Tabs>
       </motion.div>
 
       {/* Mint records table */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3 }}
+        transition={{ delay: 0.4 }}
       >
         <Card className="glass border-white/[0.06] overflow-hidden">
           <CardHeader className="border-b border-white/[0.06] p-5">
