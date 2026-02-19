@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "./utils";
 import { base44 } from "@/api/base44Client";
-import { Hexagon, Menu, X, LogOut, User, Wallet, LayoutGrid } from "lucide-react";
+import { Hexagon, Menu, X, LogOut, User, Wallet, LayoutGrid, Sun, Moon } from "lucide-react";
 import NotificationBell from "./components/notifications/NotificationBell";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
