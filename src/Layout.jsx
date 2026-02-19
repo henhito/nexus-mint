@@ -154,7 +154,14 @@ export default function Layout({ children, currentPageName }) {
                     {item.name}
                   </Link>
                 ))}
-                <div className="pt-3 border-t border-white/[0.06]">
+                <div className="pt-3 border-t border-white/[0.06] space-y-1">
+                  <button
+                    onClick={() => setIsDark((d) => !d)}
+                    className="flex items-center gap-3 px-3 py-2.5 text-sm text-white/50 hover:text-white w-full"
+                  >
+                    {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+                    {isDark ? "Light Mode" : "Dark Mode"}
+                  </button>
                   {isAuthenticated ? (
                     <button
                       onClick={() => base44.auth.logout()}
