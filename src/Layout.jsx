@@ -87,6 +87,13 @@ export default function Layout({ children, currentPageName }) {
 
             {/* Auth */}
             <div className="hidden md:flex items-center gap-3">
+              <button
+                onClick={() => setIsDark((d) => !d)}
+                className="p-2 rounded-lg text-white/40 hover:text-white hover:bg-white/[0.06] transition-colors"
+                title="Toggle theme"
+              >
+                {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+              </button>
               {isAuthenticated ? (
                 <div className="flex items-center gap-3">
                   <NotificationBell userEmail={user?.email} />
