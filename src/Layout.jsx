@@ -76,6 +76,7 @@ export default function Layout({ children, currentPageName }) {
             <div className="hidden md:flex items-center gap-3">
               {isAuthenticated ? (
                 <div className="flex items-center gap-3">
+                  <NotificationBell userEmail={user?.email} />
                   <div className="text-sm text-white/50">
                     {user?.full_name || user?.email}
                   </div>
