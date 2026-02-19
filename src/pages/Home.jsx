@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "../utils";
 import { motion } from "framer-motion";
-import { Shield, Zap, Coins, Globe, ArrowRight, Lock, Layers, Users } from "lucide-react";
+import { Shield, Zap, CircleDollarSign, Globe, ArrowRight, Lock, Layers, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import HeroOrb from "../components/mint/HeroOrb";
 import FeatureCard from "../components/home/FeatureCard";
