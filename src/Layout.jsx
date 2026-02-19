@@ -11,6 +11,19 @@ export default function Layout({ children, currentPageName }) {
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isDark, setIsDark] = useState(() => {
+    return localStorage.getItem("theme") !== "light";
+  });
+
+  useEffect(() => {
+    if (isDark) {
+      document.documentElement.classList.remove("light");
+      localStorage.setItem("theme", "dark");
+    } else {
+      document.documentElement.classList.add("light");
+      localStorage.setItem("theme", "light");
+    }
+  }, [isDark]);
 
   useEffect(() => {
     const checkAuth = async () => {
