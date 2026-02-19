@@ -31,14 +31,8 @@ Deno.serve(async (req) => {
       return Response.json({ skipped: "no user_id on record" });
     }
 
-    // Resolve user email for frontend filtering
-    let userEmail = null;
-    try {
-      const users = await base44.asServiceRole.entities.User.filter({ id: mintRecord.user_id });
-      userEmail = users?.[0]?.email || null;
-    } catch (_) {
-      // non-critical
-    }
+    // created_by is the user's email (set automatically by Base44 on entity create)
+    const userEmail = mintRecord.created_by || null;
 
     let title, message, type;
 
