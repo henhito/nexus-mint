@@ -11,6 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { format } from "date-fns";
 import SecurityChecklist from "../components/admin/SecurityChecklist";
 import SetupInstructions from "../components/admin/SetupInstructions";
+import AuditLogsTable from "../components/admin/AuditLogsTable";
 
 export default function Admin() {
   const [user, setUser] = useState(null);
