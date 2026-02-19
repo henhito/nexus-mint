@@ -10,7 +10,7 @@ import RoadmapStep from "../components/home/RoadmapStep";
 
 const features = [
   {
-    icon: Coins,
+    icon: CircleDollarSign,
     title: "Zero Gas Fees",
     description: "We sponsor all minting transactions. Your NFT costs you nothing — no wallet, no crypto needed.",
   },
