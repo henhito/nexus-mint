@@ -1,54 +1,43 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "../utils";
 import { motion } from "framer-motion";
 import { Shield, Zap, CircleDollarSign, Globe, ArrowRight, Lock, Layers, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { base44 } from "@/api/base44Client";
 import HeroOrb from "../components/mint/HeroOrb";
 import FeatureCard from "../components/home/FeatureCard";
 import RoadmapStep from "../components/home/RoadmapStep";
 
-const features = [
-  {
-    icon: CircleDollarSign,
-    title: "Zero Gas Fees",
-    description: "We sponsor all minting transactions. Your NFT costs you nothing — no wallet, no crypto needed.",
-  },
-  {
-    icon: Shield,
-    title: "Secure by Design",
-    description: "OAuth-only auth, server-side signing, rate limiting, and no private keys in the browser.",
-  },
-  {
-    icon: Zap,
-    title: "Polygon Network",
-    description: "Built on Polygon for fast, low-cost transactions with Ethereum-level security guarantees.",
-  },
-  {
-    icon: Globe,
-    title: "IPFS Metadata",
-    description: "All NFT metadata and images are pinned to IPFS for permanent, decentralized storage.",
-  },
-  {
-    icon: Lock,
-    title: "Rate Limited",
-    description: "Fair distribution with per-user and daily global caps to prevent abuse and bots.",
-  },
-  {
-    icon: Layers,
-    title: "ERC-721 Standard",
-    description: "Full ERC-721 compliance. Trade on OpenSea, Rarible, or any NFT marketplace.",
-  },
-];
-
-const roadmap = [
-  { phase: "Phase 1", title: "Testnet Launch", description: "Deploy on Polygon Amoy testnet. Free mint open to early community.", active: true },
-  { phase: "Phase 2", title: "Mainnet Migration", description: "Validated contracts go live on Polygon mainnet with env switch.", active: false },
-  { phase: "Phase 3", title: "Community Governance", description: "Token holders vote on collection direction and future drops.", active: false },
-  { phase: "Phase 4", title: "Ecosystem Expansion", description: "Cross-chain bridges and utility integrations for holders.", active: false },
-];
+...
 
 export default function Home() {
+  const [authState, setAuthState] = useState("loading"); // loading | unauthenticated | no-wallet | ready
+  useEffect(() => {
+    const check = async () => {
+      const authed = await base44.auth.isAuthenticated();
+      if (!authed) { setAuthState("unauthenticated"); return; }
+      const user = await base44.auth.me();
+      const profiles = await base44.entities.UserProfile.filter({ user_id: user.id });
+      const hasWallet = profiles.length > 0 && !!profiles[0].wallet_address;
+      setAuthState(hasWallet ? "ready" : "no-wallet");
+    };
+    check();
+  }, []);
+
+  const ctaLabel = authState === "unauthenticated" || authState === "loading"
+    ? "Sign In to Mint"
+    : authState === "no-wallet"
+    ? "Connect Wallet"
+    : "Start Minting";
+
+  const handleCta = () => {
+    if (authState === "unauthenticated") {
+      base44.auth.redirectToLogin(window.location.href);
+    }
+    // For no-wallet and ready states, Link handles navigation to Mint page
+  };
+
   return (
     <div className="pb-20">
       {/* Hero */}
