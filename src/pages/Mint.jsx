@@ -175,17 +175,22 @@ export default function Mint() {
             {/* Wallet input */}
             <div className="space-y-2">
               <Label className="text-sm text-white/50">Wallet Address</Label>
-              <div className="relative">
-                <Wallet className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/20" />
-                <Input
-                  placeholder="0x..."
-                  value={walletAddress}
-                  onChange={(e) => setWalletAddress(e.target.value)}
-                  className="pl-10 bg-white/[0.04] border-white/[0.08] text-white placeholder:text-white/20 focus:border-purple-500/30 rounded-xl h-12"
-                />
+              <div className="flex gap-2 items-start">
+                <div className="relative flex-1">
+                  <Wallet className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/20" />
+                  <Input
+                    placeholder="0x... or connect wallet below"
+                    value={walletAddress}
+                    onChange={(e) => setWalletAddress(e.target.value)}
+                    className="pl-10 bg-white/[0.04] border-white/[0.08] text-white placeholder:text-white/20 focus:border-purple-500/30 rounded-xl h-12"
+                  />
+                </div>
+              </div>
+              <div className="pt-1">
+                <WalletConnectButton onAddressChange={(addr) => setWalletAddress(addr)} />
               </div>
               <p className="text-xs text-white/25">
-                Your Polygon-compatible wallet address. NFT will be sent here.
+                Connect MetaMask or enter your Polygon wallet address manually.
               </p>
             </div>
 
