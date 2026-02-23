@@ -9,6 +9,22 @@ import HeroOrb from "../components/mint/HeroOrb";
 import FeatureCard from "../components/home/FeatureCard";
 import RoadmapStep from "../components/home/RoadmapStep";
 
+const features = [
+  { icon: CircleDollarSign, title: "Zero Gas Fees", description: "We sponsor all minting transactions. Your NFT costs you nothing — no wallet, no crypto needed." },
+  { icon: Shield, title: "Secure by Design", description: "OAuth-only auth, server-side signing, rate limiting, and no private keys in the browser." },
+  { icon: Zap, title: "Polygon Network", description: "Built on Polygon for fast, low-cost transactions with Ethereum-level security guarantees." },
+  { icon: Globe, title: "IPFS Metadata", description: "All NFT metadata and images are pinned to IPFS for permanent, decentralized storage." },
+  { icon: Lock, title: "Rate Limited", description: "Fair distribution with per-user and daily global caps to prevent abuse and bots." },
+  { icon: Layers, title: "ERC-721 Standard", description: "Full ERC-721 compliance. Trade on OpenSea, Rarible, or any NFT marketplace." },
+];
+
+const roadmap = [
+  { phase: "Phase 1", title: "Testnet Launch", description: "Deploy on Polygon Amoy testnet. Free mint open to early community.", active: true },
+  { phase: "Phase 2", title: "Mainnet Migration", description: "Validated contracts go live on Polygon mainnet with env switch.", active: false },
+  { phase: "Phase 3", title: "Community Governance", description: "Token holders vote on collection direction and future drops.", active: false },
+  { phase: "Phase 4", title: "Ecosystem Expansion", description: "Cross-chain bridges and utility integrations for holders.", active: false },
+];
+
 export default function Home() {
   const [authState, setAuthState] = useState("loading"); // loading | unauthenticated | no-wallet | ready
   useEffect(() => {
