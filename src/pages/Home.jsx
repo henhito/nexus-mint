@@ -9,8 +9,6 @@ import HeroOrb from "../components/mint/HeroOrb";
 import FeatureCard from "../components/home/FeatureCard";
 import RoadmapStep from "../components/home/RoadmapStep";
 
-...
-
 export default function Home() {
   const [authState, setAuthState] = useState("loading"); // loading | unauthenticated | no-wallet | ready
   useEffect(() => {
