@@ -51,7 +51,7 @@ export default function Layout({ children, currentPageName }) {
 
   return (
     <Web3Provider>
-    <div className="min-h-screen bg-[hsl(var(--background))] text-[hsl(var(--foreground))] relative overflow-hidden">
+      <div className="min-h-screen bg-[hsl(var(--background))] text-[hsl(var(--foreground))] relative overflow-hidden">
       {/* Ambient background gradients */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute top-[-20%] left-[-10%] w-[600px] h-[600px] bg-purple-600/[0.04] rounded-full blur-[120px]" />
