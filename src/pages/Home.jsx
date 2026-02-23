@@ -67,12 +67,22 @@ export default function Home() {
             </p>
 
             <div className="flex flex-wrap items-center gap-4">
-              <Link to={createPageUrl("Mint")}>
-                <Button className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white border-0 px-8 py-6 text-base rounded-xl">
-                  Start Minting
+              {authState === "unauthenticated" || authState === "loading" ? (
+                <Button
+                  onClick={handleCta}
+                  className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white border-0 px-8 py-6 text-base rounded-xl"
+                >
+                  {ctaLabel}
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
-              </Link>
+              ) : (
+                <Link to={createPageUrl("Mint")}>
+                  <Button className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white border-0 px-8 py-6 text-base rounded-xl">
+                    {ctaLabel}
+                    <ArrowRight className="w-4 h-4 ml-2" />
+                  </Button>
+                </Link>
+              )}
               <Link to={createPageUrl("Gallery")}>
                 <Button variant="ghost" className="text-white/50 hover:text-white hover:bg-white/[0.06] px-6 py-6 text-base rounded-xl">
                   View Gallery
