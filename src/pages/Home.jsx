@@ -206,12 +206,22 @@ export default function Home() {
           <p className="text-white/35 mb-8 max-w-md mx-auto">
             Sign in, enter your wallet address, and claim your free Genesis NFT in seconds.
           </p>
-          <Link to={createPageUrl("Mint")}>
-            <Button className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white border-0 px-10 py-6 text-base rounded-xl mint-pulse">
-              Mint Now — It's Free
+          {authState === "unauthenticated" || authState === "loading" ? (
+            <Button
+              onClick={() => base44.auth.redirectToLogin(window.location.href)}
+              className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white border-0 px-10 py-6 text-base rounded-xl mint-pulse"
+            >
+              Sign In to Mint
               <ArrowRight className="w-4 h-4 ml-2" />
             </Button>
-          </Link>
+          ) : (
+            <Link to={createPageUrl("Mint")}>
+              <Button className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white border-0 px-10 py-6 text-base rounded-xl mint-pulse">
+                {ctaLabel}
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Button>
+            </Link>
+          )}
         </motion.div>
       </section>
     </div>
