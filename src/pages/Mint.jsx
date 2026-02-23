@@ -19,6 +19,7 @@ export default function Mint() {
   const [userProfile, setUserProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isMinting, setIsMinting] = useState(false);
+  const [mintStep, setMintStep] = useState(-1);
   const [mintResult, setMintResult] = useState(null);
   const [error, setError] = useState(null);
   const [mintCount, setMintCount] = useState(0);
