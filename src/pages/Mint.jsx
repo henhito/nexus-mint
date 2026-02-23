@@ -52,16 +52,30 @@ export default function Mint() {
     setError(null);
     setMintResult(null);
     setIsMinting(true);
+
+    // Simulate step progression
+    let step = 0;
+    setMintStep(0);
+    const stepInterval = setInterval(() => {
+      step += 1;
+      if (step < 4) setMintStep(step);
+    }, 1200);
+
     try {
       const { data } = await base44.functions.invoke("mintNFT", {});
+      clearInterval(stepInterval);
       if (data.success) {
+        setMintStep(5); // all done
         setMintResult(data.mint);
         setMintCount((c) => c + 1);
         setTotalMinted((c) => c + 1);
       } else {
+        setMintStep(-1);
         setError(data.error || "Mint failed. Please try again.");
       }
     } catch (err) {
+      clearInterval(stepInterval);
+      setMintStep(-1);
       setError(err.message || "Failed to mint NFT. Please try again.");
     } finally {
       setIsMinting(false);
