@@ -8,6 +8,8 @@ import StatBadge from "../components/mint/StatBadge";
 import MintButton from "../components/mint/MintButton";
 import MintResult from "../components/mint/MintResult";
 import WalletLinkSection from "../components/mint/WalletLinkSection";
+import MintProgress from "../components/mint/MintProgress";
+import NFTPreviewCard from "../components/mint/NFTPreviewCard";
 
 const MAX_MINTS = 3;
 
