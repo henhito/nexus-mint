@@ -10,6 +10,7 @@ import HeroOrb from "../components/mint/HeroOrb";
 import StatBadge from "../components/mint/StatBadge";
 import MintButton from "../components/mint/MintButton";
 import MintResult from "../components/mint/MintResult";
+import WalletConnectButton from "../components/wallet/WalletConnectButton";
 
 const MAX_MINTS_PER_USER = 3;
 
