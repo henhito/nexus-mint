@@ -112,80 +112,146 @@ export default function Mint() {
         <StatBadge label="Network" value="Amoy" icon={Shield} />
       </motion.div>
 
-      {/* Mint Card */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2 }}
-        className="glass-strong rounded-3xl p-6 sm:p-10 max-w-xl mx-auto"
-      >
-        {/* Not authenticated */}
-        {!isAuthenticated ? (
-          <div className="text-center py-8">
-            <div className="w-16 h-16 rounded-2xl bg-purple-500/10 flex items-center justify-center mx-auto mb-6">
-              <Shield className="w-8 h-8 text-purple-400" />
-            </div>
-            <h3 className="text-xl font-semibold text-white mb-2">Sign In Required</h3>
-            <p className="text-sm text-white/40 mb-6">
-              Connect with Google or Facebook to start minting. OAuth-only — no passwords stored.
-            </p>
-            <Button
-              onClick={() => base44.auth.redirectToLogin(window.location.href)}
-              className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white border-0 px-8 py-3 rounded-xl"
-            >
-              Sign In to Mint
-            </Button>
-          </div>
-        ) : (
-          <div className="space-y-6">
-            {/* User info */}
-            <div className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.03]">
-              <div className="w-9 h-9 rounded-full bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center text-sm font-semibold text-white">
-                {(user?.full_name || user?.email || "U")[0].toUpperCase()}
-              </div>
-              <div>
-                <div className="text-sm font-medium text-white">{user?.full_name || "User"}</div>
-                <div className="text-xs text-white/30">{user?.email}</div>
-              </div>
-            </div>
+      {/* Main content: NFT preview + Mint Card */}
+      <div className="flex flex-col lg:flex-row gap-8 items-start justify-center max-w-3xl mx-auto">
+        {/* NFT Preview */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="w-full lg:w-72 flex-shrink-0"
+        >
+          <NFTPreviewCard
+            imageUrl={mintResult?.image_url}
+            name={mintResult?.nft_name}
+            tokenId={mintResult?.token_id}
+            isMinting={isMinting}
+          />
+        </motion.div>
 
-            {/* Wallet Link */}
-            <WalletLinkSection userProfile={userProfile} onProfileUpdate={setUserProfile} />
+        {/* Mint Card */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.25 }}
+          className="glass-strong rounded-3xl p-6 sm:p-8 flex-1 w-full"
+        >
+          {/* Not authenticated */}
+          {!isAuthenticated ? (
+            <div className="text-center py-8">
+              <div className="w-16 h-16 rounded-2xl bg-purple-500/10 flex items-center justify-center mx-auto mb-6">
+                <Shield className="w-8 h-8 text-purple-400" />
+              </div>
+              <h3 className="text-xl font-semibold text-white mb-2">Sign In Required</h3>
+              <p className="text-sm text-white/40 mb-6">
+                Connect with Google or Facebook to start minting. OAuth-only — no passwords stored.
+              </p>
+              <Button
+                onClick={() => base44.auth.redirectToLogin(window.location.href)}
+                className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white border-0 px-8 py-3 rounded-xl"
+              >
+                Sign In to Mint
+              </Button>
+            </div>
+          ) : (
+            <div className="space-y-5">
+              {/* User info */}
+              <div className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.03]">
+                <div className="w-9 h-9 rounded-full bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center text-sm font-semibold text-white">
+                  {(user?.full_name || user?.email || "U")[0].toUpperCase()}
+                </div>
+                <div>
+                  <div className="text-sm font-medium text-white">{user?.full_name || "User"}</div>
+                  <div className="text-xs text-white/30">{user?.email}</div>
+                </div>
+              </div>
 
-            {/* Error */}
-            <AnimatePresence>
-              {error && (
-                <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
-                  <Alert className="bg-red-500/10 border-red-500/20 text-red-300">
-                    <AlertTriangle className="w-4 h-4" />
-                    <AlertDescription className="text-sm">{error}</AlertDescription>
-                  </Alert>
-                </motion.div>
+              {/* Wallet Link */}
+              <WalletLinkSection userProfile={userProfile} onProfileUpdate={setUserProfile} />
+
+              {/* Error */}
+              <AnimatePresence>
+                {error && (
+                  <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
+                    <Alert className="bg-red-500/10 border-red-500/20 text-red-300">
+                      <AlertTriangle className="w-4 h-4" />
+                      <AlertDescription className="text-sm font-medium">{error}</AlertDescription>
+                    </Alert>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* Progress during minting */}
+              <AnimatePresence>
+                {isMinting && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    className="overflow-hidden"
+                  >
+                    <MintProgress currentStep={mintStep} />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* Success result inline */}
+              <AnimatePresence>
+                {mintResult && !isMinting && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="rounded-xl bg-green-500/10 border border-green-500/20 p-4 space-y-2"
+                  >
+                    <div className="flex items-center gap-2 text-green-400 font-semibold text-sm">
+                      <Sparkles className="w-4 h-4" />
+                      NFT Minted Successfully!
+                    </div>
+                    {mintResult.nft_name && (
+                      <div className="flex justify-between text-xs">
+                        <span className="text-white/40">Name</span>
+                        <span className="text-white font-medium">{mintResult.nft_name}</span>
+                      </div>
+                    )}
+                    {mintResult.token_id && (
+                      <div className="flex justify-between text-xs">
+                        <span className="text-white/40">Token ID</span>
+                        <span className="text-white font-mono">#{mintResult.token_id}</span>
+                      </div>
+                    )}
+                    {mintResult.tx_hash && (
+                      <a
+                        href={`https://amoy.polygonscan.com/tx/${mintResult.tx_hash}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-1.5 text-xs text-purple-400 hover:text-purple-300 transition-colors pt-1 font-medium"
+                      >
+                        View on Polygonscan
+                        <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+                      </a>
+                    )}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* Mint button — disabled if wallet not linked or minting */}
+              {!walletLinked ? (
+                <div className="text-center py-2">
+                  <p className="text-sm text-white/30">Link your wallet above to enable minting.</p>
+                </div>
+              ) : (
+                <MintButton
+                  onClick={handleMint}
+                  isMinting={isMinting}
+                  disabled={mintCount >= MAX_MINTS}
+                  mintCount={mintCount}
+                  maxMints={MAX_MINTS}
+                />
               )}
-            </AnimatePresence>
-
-            {/* Mint button — disabled if wallet not linked */}
-            {!walletLinked ? (
-              <div className="text-center py-2">
-                <p className="text-sm text-white/30">Link your wallet above to enable minting.</p>
-              </div>
-            ) : (
-              <MintButton
-                onClick={handleMint}
-                isMinting={isMinting}
-                disabled={mintCount >= MAX_MINTS}
-                mintCount={mintCount}
-                maxMints={MAX_MINTS}
-              />
-            )}
-          </div>
-        )}
-      </motion.div>
-
-      {/* Result */}
-      <AnimatePresence>
-        {mintResult && <MintResult result={mintResult} network="amoy" />}
-      </AnimatePresence>
+            </div>
+          )}
+        </motion.div>
+      </div>
 
       {/* Security note */}
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }} className="mt-12 text-center">
