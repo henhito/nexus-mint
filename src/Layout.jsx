@@ -193,7 +193,7 @@ export default function Layout({ children, currentPageName }) {
       <main className="relative z-10">
         {children}
       </main>
-    </div>
+      </div>
     </Web3Provider>
   );
 }
