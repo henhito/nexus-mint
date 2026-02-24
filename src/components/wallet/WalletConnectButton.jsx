@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useAccount, useConnect, useDisconnect } from "wagmi";
 import { injected } from "wagmi/connectors";
-import { Button } from "@/components/ui/button";
 import { Wallet, ChevronDown, LogOut, Copy, Check, AlertCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
