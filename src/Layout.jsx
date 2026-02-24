@@ -92,7 +92,7 @@ export default function Layout({ children, currentPageName }) {
             <div className="hidden md:flex items-center gap-3">
               <button
                 onClick={() => setIsDark((d) => !d)}
-                className="p-2 rounded-lg text-white/40 hover:text-white hover:bg-white/[0.06] transition-colors"
+                className="p-2 rounded-lg text-white/70 hover:text-white hover:bg-white/[0.1] transition-colors border border-white/[0.1]"
                 title="Toggle theme"
               >
                 {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
