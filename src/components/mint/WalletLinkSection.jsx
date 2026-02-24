@@ -99,11 +99,10 @@ export default function WalletLinkSection({ userProfile, onProfileUpdate }) {
       <div className="text-sm text-white/50 font-medium">Link Your Wallet</div>
 
       {!isConnected ? (
-        <Button
+        <button
           onClick={handleConnect}
           disabled={isPending}
-          variant="outline"
-          className="w-full border-white/[0.1] bg-white/[0.04] text-white hover:bg-white/[0.08] rounded-xl h-11"
+          className="w-full flex items-center justify-center border border-white/[0.1] bg-white/[0.04] text-white hover:bg-white/[0.08] rounded-xl h-11 text-sm font-medium transition-colors disabled:opacity-50"
         >
           <Wallet className="w-4 h-4 mr-2" />
           {isPending ? "Connecting..." : "Connect MetaMask"}
