@@ -3,7 +3,6 @@ import { base44 } from "@/api/base44Client";
 import { useAccount, useConnect, useDisconnect } from "wagmi";
 import { injected } from "wagmi/connectors";
 import { Wallet, Check, AlertCircle, Link as LinkIcon, Unlink } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 
 export default function WalletLinkSection({ userProfile, onProfileUpdate }) {
