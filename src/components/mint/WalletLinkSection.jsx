@@ -106,7 +106,7 @@ export default function WalletLinkSection({ userProfile, onProfileUpdate }) {
         >
           <Wallet className="w-4 h-4 mr-2" />
           {isPending ? "Connecting..." : "Connect MetaMask"}
-        </Button>
+        </button>
       ) : (
         <div className="space-y-2">
           <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/[0.04] border border-white/[0.08]">
