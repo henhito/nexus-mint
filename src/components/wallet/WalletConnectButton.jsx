@@ -89,7 +89,7 @@ export default function WalletConnectButton({ onAddressChange }) {
       >
         <Wallet className="w-4 h-4" />
         {isPending ? "Connecting..." : "Connect Wallet"}
-      </Button>
+      </button>
       {error && (
         <p className="flex items-center gap-1 text-xs text-red-400">
           <AlertCircle className="w-3 h-3" />
