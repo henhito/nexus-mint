@@ -82,11 +82,10 @@ export default function WalletConnectButton({ onAddressChange }) {
 
   return (
     <div className="space-y-1">
-      <Button
+      <button
         onClick={handleConnect}
         disabled={isPending}
-        variant="ghost"
-        className="flex items-center gap-2 bg-white/[0.06] hover:bg-white/[0.1] border border-white/[0.08] text-white text-sm rounded-xl"
+        className="flex items-center gap-2 px-3 py-2 bg-white/[0.08] hover:bg-white/[0.12] border border-white/[0.12] text-white text-sm rounded-xl transition-colors disabled:opacity-50"
       >
         <Wallet className="w-4 h-4" />
         {isPending ? "Connecting..." : "Connect Wallet"}
