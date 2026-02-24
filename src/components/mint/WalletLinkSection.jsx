@@ -113,14 +113,14 @@ export default function WalletLinkSection({ userProfile, onProfileUpdate }) {
             <div className="w-2 h-2 rounded-full bg-green-400" />
             <span className="text-sm text-white font-mono">{short(address)}</span>
           </div>
-          <Button
+          <button
             onClick={handleLink}
             disabled={linking}
-            className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white border-0 rounded-xl h-11"
+            className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white rounded-xl h-11 text-sm font-medium transition-all disabled:opacity-50"
           >
-            <LinkIcon className="w-4 h-4 mr-2" />
+            <LinkIcon className="w-4 h-4" />
             {linking ? "Linking..." : "Link This Wallet"}
-          </Button>
+          </button>
         </div>
       )}
 
