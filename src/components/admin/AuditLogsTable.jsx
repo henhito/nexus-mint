@@ -48,21 +48,21 @@ export default function AuditLogsTable() {
   };
 
   return (
-    <Card className="glass border-white/[0.06] overflow-hidden">
-      <CardHeader className="border-b border-white/[0.06] p-5">
-        <CardTitle className="text-base font-semibold text-white">Audit Logs</CardTitle>
-        <p className="text-xs text-white/40 mt-1">Last 50 system events</p>
+    <Card className="glass border-foreground/[0.06] overflow-hidden">
+      <CardHeader className="border-b border-foreground/[0.06] p-5">
+        <CardTitle className="text-base font-semibold text-foreground">Audit Logs</CardTitle>
+        <p className="text-xs text-foreground/40 mt-1">Last 50 system events</p>
       </CardHeader>
       <div className="overflow-x-auto">
         <Table>
           <TableHeader>
-            <TableRow className="border-white/[0.06]">
-              <TableHead className="text-white/40">Timestamp</TableHead>
-              <TableHead className="text-white/40">Event Type</TableHead>
-              <TableHead className="text-white/40">User ID</TableHead>
-              <TableHead className="text-white/40">IP Address</TableHead>
-              <TableHead className="text-white/40">Severity</TableHead>
-              <TableHead className="text-white/40">Details</TableHead>
+            <TableRow className="border-foreground/[0.06]">
+              <TableHead className="text-foreground/40">Timestamp</TableHead>
+              <TableHead className="text-foreground/40">Event Type</TableHead>
+              <TableHead className="text-foreground/40">User ID</TableHead>
+              <TableHead className="text-foreground/40">IP Address</TableHead>
+              <TableHead className="text-foreground/40">Severity</TableHead>
+              <TableHead className="text-foreground/40">Details</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -71,40 +71,40 @@ export default function AuditLogsTable() {
                 .fill(0)
                 .map((_, i) => (
                   <TableRow key={i}>
-                    <TableCell><Skeleton className="h-4 w-32 bg-white/[0.04]" /></TableCell>
-                    <TableCell><Skeleton className="h-4 w-24 bg-white/[0.04]" /></TableCell>
-                    <TableCell><Skeleton className="h-4 w-20 bg-white/[0.04]" /></TableCell>
-                    <TableCell><Skeleton className="h-4 w-24 bg-white/[0.04]" /></TableCell>
-                    <TableCell><Skeleton className="h-6 w-16 bg-white/[0.04]" /></TableCell>
-                    <TableCell><Skeleton className="h-4 w-32 bg-white/[0.04]" /></TableCell>
+                    <TableCell><Skeleton className="h-4 w-32 bg-foreground/[0.04]" /></TableCell>
+                    <TableCell><Skeleton className="h-4 w-24 bg-foreground/[0.04]" /></TableCell>
+                    <TableCell><Skeleton className="h-4 w-20 bg-foreground/[0.04]" /></TableCell>
+                    <TableCell><Skeleton className="h-4 w-24 bg-foreground/[0.04]" /></TableCell>
+                    <TableCell><Skeleton className="h-6 w-16 bg-foreground/[0.04]" /></TableCell>
+                    <TableCell><Skeleton className="h-4 w-32 bg-foreground/[0.04]" /></TableCell>
                   </TableRow>
                 ))
             ) : logs.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={6} className="text-center text-white/30 py-8">
+                <TableCell colSpan={6} className="text-center text-foreground/30 py-8">
                   No audit logs yet
                 </TableCell>
               </TableRow>
             ) : (
               logs.map((log) => (
-                <TableRow key={log.id} className="border-white/[0.04] hover:bg-white/[0.02]">
-                  <TableCell className="text-xs text-white/50 font-mono">
+                <TableRow key={log.id} className="border-foreground/[0.04] hover:bg-foreground/[0.02]">
+                  <TableCell className="text-xs text-foreground/50 font-mono">
                     {log.created_date ? format(new Date(log.created_date), "MMM d, HH:mm:ss") : "—"}
                   </TableCell>
-                  <TableCell className="text-sm text-white/70 font-medium">
+                  <TableCell className="text-sm text-foreground/70 font-medium">
                     {log.event_type?.replace(/_/g, " ")}
                   </TableCell>
-                  <TableCell className="text-xs text-white/50 font-mono">
+                  <TableCell className="text-xs text-foreground/50 font-mono">
                     {log.user_id ? log.user_id.slice(0, 8) + "..." : "—"}
                   </TableCell>
-                  <TableCell className="text-xs text-white/50 font-mono">{log.ip_address || "—"}</TableCell>
+                  <TableCell className="text-xs text-foreground/50 font-mono">{log.ip_address || "—"}</TableCell>
                   <TableCell>
                     <Badge className={`text-[10px] flex items-center gap-1 w-fit ${getSeverityColor(log.severity)}`}>
                       {getSeverityIcon(log.severity)}
                       {log.severity}
                     </Badge>
                   </TableCell>
-                  <TableCell className="text-xs text-white/40 max-w-xs truncate">
+                  <TableCell className="text-xs text-foreground/40 max-w-xs truncate">
                     {log.details ? JSON.stringify(log.details).slice(0, 50) + "..." : "—"}
                   </TableCell>
                 </TableRow>
