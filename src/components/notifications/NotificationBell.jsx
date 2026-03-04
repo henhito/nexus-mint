@@ -13,30 +13,39 @@ export default function NotificationBell({ userEmail }) {
 
   const load = async () => {
     if (!userEmail) return;
-    const items = await base44.entities.Notification.filter(
-      { user_email: userEmail },
-      "-created_date",
-      20
-    );
-    setNotifications(items);
+    try {
+      const items = await base44.entities.Notification.filter(
+        { user_email: userEmail },
+        "-created_date",
+        20
+      );
+      setNotifications(items);
+    } catch (e) {
+      // Network error - silently ignore, will retry on next poll
+    }
   };
 
   useEffect(() => {
     load();
     // Poll every 15 seconds for new notifications
     const interval = setInterval(load, 15000);
-    // Real-time subscription
-    const unsubscribe = base44.entities.Notification.subscribe((event) => {
-      if (event.type === "create" && event.data?.user_email === userEmail) {
-        setNotifications((prev) => [event.data, ...prev]);
-      } else if (event.type === "update") {
-        setNotifications((prev) =>
-          prev.map((n) => (n.id === event.id ? event.data : n))
-        );
-      } else if (event.type === "delete") {
-        setNotifications((prev) => prev.filter((n) => n.id !== event.id));
-      }
-    });
+    // Real-time subscription (best-effort, may fail in some environments)
+    let unsubscribe = () => {};
+    try {
+      unsubscribe = base44.entities.Notification.subscribe((event) => {
+        if (event.type === "create" && event.data?.user_email === userEmail) {
+          setNotifications((prev) => [event.data, ...prev]);
+        } else if (event.type === "update") {
+          setNotifications((prev) =>
+            prev.map((n) => (n.id === event.id ? event.data : n))
+          );
+        } else if (event.type === "delete") {
+          setNotifications((prev) => prev.filter((n) => n.id !== event.id));
+        }
+      });
+    } catch (e) {
+      // WebSocket not available - polling will handle updates
+    }
     return () => {
       clearInterval(interval);
       unsubscribe();
