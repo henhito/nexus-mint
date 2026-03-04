@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import { useAccount, useConnect, useDisconnect } from "wagmi";
-import { injected } from "wagmi/connectors";
 import { Wallet, ChevronDown, LogOut, Copy, Check, AlertCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function WalletConnectButton({ onAddressChange }) {
   const { address, isConnected } = useAccount();
-  const { connect, isPending, error } = useConnect();
+  const { connect, connectors, isPending, error } = useConnect();
   const { disconnect } = useDisconnect();
   const [showDropdown, setShowDropdown] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -17,7 +16,12 @@ export default function WalletConnectButton({ onAddressChange }) {
   }, [address, isConnected]);
 
   const handleConnect = () => {
-    connect({ connector: injected() });
+    const injectedConnector = connectors.find((c) => c.id === "injected");
+    if (injectedConnector) {
+      connect({ connector: injectedConnector });
+    } else {
+      connect({ connector: connectors[0] });
+    }
   };
 
   const handleDisconnect = () => {
