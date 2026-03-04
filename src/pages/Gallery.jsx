@@ -40,8 +40,8 @@ export default function Gallery() {
         animate={{ opacity: 1, y: 0 }}
         className="mb-10"
       >
-        <h1 className="text-3xl sm:text-4xl font-bold text-white mb-2">Gallery</h1>
-        <p className="text-white/40">Browse all minted Genesis NFTs.</p>
+        <h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-2">Gallery</h1>
+        <p className="text-foreground/50">Browse all minted Genesis NFTs.</p>
       </motion.div>
 
       {/* Filters */}
@@ -52,17 +52,17 @@ export default function Gallery() {
         className="flex flex-col sm:flex-row gap-3 mb-8"
       >
         <div className="relative flex-1 max-w-sm">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/20" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground/30" />
           <Input
             placeholder="Search by name, wallet, or ID..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="pl-10 bg-white/[0.04] border-white/[0.08] text-white placeholder:text-white/20 rounded-xl"
+            className="pl-10 bg-foreground/[0.04] border-foreground/[0.08] text-foreground placeholder:text-foreground/30 rounded-xl"
           />
         </div>
         <Select value={statusFilter} onValueChange={setStatusFilter}>
-          <SelectTrigger className="w-40 bg-white/[0.04] border-white/[0.08] text-white rounded-xl">
-            <Filter className="w-4 h-4 mr-2 text-white/30" />
+          <SelectTrigger className="w-40 bg-foreground/[0.04] border-foreground/[0.08] text-foreground rounded-xl">
+            <Filter className="w-4 h-4 mr-2 text-foreground/40" />
             <SelectValue placeholder="Status" />
           </SelectTrigger>
           <SelectContent>
@@ -95,17 +95,17 @@ export default function Gallery() {
           animate={{ opacity: 1 }}
           className="text-center py-20"
         >
-          <Hexagon className="w-12 h-12 text-white/10 mx-auto mb-4" />
-          <h3 className="text-lg font-medium text-white/40 mb-1">
+          <Hexagon className="w-12 h-12 text-foreground/20 mx-auto mb-4" />
+          <h3 className="text-lg font-medium text-foreground/50 mb-1">
             {mints.length === 0 ? "No NFTs minted yet" : "No results found"}
           </h3>
-          <p className="text-sm text-white/25">
+          <p className="text-sm text-foreground/40">
             {mints.length === 0 ? "Be the first to mint a Genesis NFT!" : "Try adjusting your search or filters."}
           </p>
         </motion.div>
       ) : (
         <>
-          <p className="text-sm text-white/30 mb-4">{filtered.length} NFT{filtered.length !== 1 ? "s" : ""}</p>
+          <p className="text-sm text-foreground/40 mb-4">{filtered.length} NFT{filtered.length !== 1 ? "s" : ""}</p>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
             {filtered.map((mint, i) => (
               <NFTCard key={mint.id} mint={mint} index={i} network={mint.network || "amoy"} />

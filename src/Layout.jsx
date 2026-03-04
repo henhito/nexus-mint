@@ -51,7 +51,7 @@ export default function Layout({ children, currentPageName }) {
 
   return (
     <Web3Provider>
-      <div className="min-h-screen bg-[hsl(var(--background))] text-[hsl(var(--foreground))] relative overflow-hidden">
+      <div className="min-h-screen bg-background text-foreground relative overflow-hidden">
       {/* Ambient background gradients */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute top-[-20%] left-[-10%] w-[600px] h-[600px] bg-purple-600/[0.04] rounded-full blur-[120px]" />
@@ -60,7 +60,7 @@ export default function Layout({ children, currentPageName }) {
       </div>
 
       {/* Navigation */}
-      <nav className="relative z-50 border-b border-white/[0.06]">
+      <nav className="relative z-50 border-b border-foreground/[0.06]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
@@ -79,8 +79,8 @@ export default function Layout({ children, currentPageName }) {
                   to={createPageUrl(item.page)}
                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
                     currentPageName === item.page
-                      ? "bg-white/[0.08] text-white"
-                      : "text-white/50 hover:text-white hover:bg-white/[0.04]"
+                      ? "bg-foreground/[0.08] text-foreground"
+                      : "text-foreground/50 hover:text-foreground hover:bg-foreground/[0.04]"
                   }`}
                 >
                   {item.name}
@@ -92,7 +92,7 @@ export default function Layout({ children, currentPageName }) {
             <div className="hidden md:flex items-center gap-3">
               <button
                 onClick={() => setIsDark((d) => !d)}
-                className="p-2 rounded-lg text-white/70 hover:text-white hover:bg-white/[0.1] transition-colors border border-white/[0.1]"
+                className="p-2 rounded-lg text-foreground/70 hover:text-foreground hover:bg-foreground/[0.1] transition-colors border border-foreground/[0.1]"
                 title="Toggle theme"
               >
                 {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
@@ -101,14 +101,14 @@ export default function Layout({ children, currentPageName }) {
                 <div className="flex items-center gap-3">
                   <WalletConnectButton />
                   <NotificationBell userEmail={user?.email} />
-                  <div className="text-sm text-white/50">
+                  <div className="text-sm text-foreground/50">
                     {user?.full_name || user?.email}
                   </div>
                   <Button
                     variant="ghost"
                     size="sm"
                     onClick={() => base44.auth.logout()}
-                    className="text-white/40 hover:text-white hover:bg-white/[0.06]"
+                    className="text-foreground/40 hover:text-foreground hover:bg-foreground/[0.06]"
                   >
                     <LogOut className="w-4 h-4" />
                   </Button>
@@ -125,7 +125,7 @@ export default function Layout({ children, currentPageName }) {
 
             {/* Mobile menu toggle */}
             <button
-              className="md:hidden p-2 text-white/60 hover:text-white"
+              className="md:hidden p-2 text-foreground/60 hover:text-foreground"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -140,7 +140,7 @@ export default function Layout({ children, currentPageName }) {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
-              className="md:hidden border-t border-white/[0.06] overflow-hidden"
+              className="md:hidden border-t border-foreground/[0.06] overflow-hidden"
             >
               <div className="px-4 py-4 space-y-1">
                 {navItems.map((item) => (
@@ -150,18 +150,18 @@ export default function Layout({ children, currentPageName }) {
                     onClick={() => setMobileMenuOpen(false)}
                     className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all ${
                       currentPageName === item.page
-                        ? "bg-white/[0.08] text-white"
-                        : "text-white/50 hover:text-white hover:bg-white/[0.04]"
+                        ? "bg-foreground/[0.08] text-foreground"
+                        : "text-foreground/50 hover:text-foreground hover:bg-foreground/[0.04]"
                     }`}
                   >
                     <item.icon className="w-4 h-4" />
                     {item.name}
                   </Link>
                 ))}
-                <div className="pt-3 border-t border-white/[0.06] space-y-1">
+                <div className="pt-3 border-t border-foreground/[0.06] space-y-1">
                   <button
                     onClick={() => setIsDark((d) => !d)}
-                    className="flex items-center gap-3 px-3 py-2.5 text-sm text-white/50 hover:text-white w-full"
+                    className="flex items-center gap-3 px-3 py-2.5 text-sm text-foreground/50 hover:text-foreground w-full"
                   >
                     {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
                     {isDark ? "Light Mode" : "Dark Mode"}
@@ -169,7 +169,7 @@ export default function Layout({ children, currentPageName }) {
                   {isAuthenticated ? (
                     <button
                       onClick={() => base44.auth.logout()}
-                      className="flex items-center gap-3 px-3 py-2.5 text-sm text-white/50 hover:text-white w-full"
+                      className="flex items-center gap-3 px-3 py-2.5 text-sm text-foreground/50 hover:text-foreground w-full"
                     >
                       <LogOut className="w-4 h-4" />
                       Sign Out
