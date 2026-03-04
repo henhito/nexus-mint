@@ -62,7 +62,7 @@ export default function Mint() {
     }, 1200);
 
     try {
-      const { data } = await base44.functions.invoke("mintNFT", {});
+      const { data } = await base44.functions.invoke("mintNFT/index", {});
       clearInterval(stepInterval);
       if (data.success) {
         setMintStep(5); // all done
