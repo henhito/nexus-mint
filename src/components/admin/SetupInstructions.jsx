@@ -145,23 +145,23 @@ CONTRACT_ADDRESS_MAINNET=0x<your_mainnet_address>`,
 
   return (
     <div className="glass rounded-2xl p-6">
-      <h3 className="text-base font-semibold text-white mb-1">Setup Guide</h3>
-      <p className="text-xs text-white/40 mb-6">Step-by-step instructions for OAuth, RLS, and deployment</p>
+      <h3 className="text-base font-semibold text-foreground mb-1">Setup Guide</h3>
+      <p className="text-xs text-foreground/40 mb-6">Step-by-step instructions for OAuth, RLS, and deployment</p>
 
       <div className="space-y-2">
         {sections.map((section) => {
           const isExpanded = expandedSection === section.id;
           return (
-            <div key={section.id} className="border border-white/[0.06] rounded-xl overflow-hidden">
+            <div key={section.id} className="border border-foreground/[0.06] rounded-xl overflow-hidden">
               <button
                 onClick={() => setExpandedSection(isExpanded ? null : section.id)}
-                className="w-full flex items-center justify-between p-4 hover:bg-white/[0.02] transition-colors text-left"
+                className="w-full flex items-center justify-between p-4 hover:bg-foreground/[0.02] transition-colors text-left"
               >
-                <span className="text-sm font-medium text-white">{section.title}</span>
+                <span className="text-sm font-medium text-foreground">{section.title}</span>
                 {isExpanded ? (
-                  <ChevronDown className="w-4 h-4 text-white/40" />
+                  <ChevronDown className="w-4 h-4 text-foreground/40" />
                 ) : (
-                  <ChevronRight className="w-4 h-4 text-white/40" />
+                  <ChevronRight className="w-4 h-4 text-foreground/40" />
                 )}
               </button>
 
@@ -180,9 +180,9 @@ CONTRACT_ADDRESS_MAINNET=0x<your_mainnet_address>`,
                           {step.subtitle && (
                             <h4 className="text-xs font-semibold text-purple-300 mb-1.5">{step.subtitle}</h4>
                           )}
-                          {step.content && <p className="text-xs text-white/60 mb-2">{step.content}</p>}
+                          {step.content && <p className="text-xs text-foreground/60 mb-2">{step.content}</p>}
                           {step.list && (
-                            <ul className="text-xs text-white/50 space-y-1 list-disc list-inside mb-2">
+                            <ul className="text-xs text-foreground/50 space-y-1 list-disc list-inside mb-2">
                               {step.list.map((item, j) => (
                                 <li key={j}>{item}</li>
                               ))}
@@ -191,7 +191,7 @@ CONTRACT_ADDRESS_MAINNET=0x<your_mainnet_address>`,
                           {step.code && (
                             <div className="mt-2">
                               {step.codeLabel && (
-                                <p className="text-xs text-white/40 mb-1">{step.codeLabel}</p>
+                                <p className="text-xs text-foreground/40 mb-1">{step.codeLabel}</p>
                               )}
                               <div className="relative group">
                                 <pre className="bg-black/30 rounded-lg p-3 text-xs text-purple-200 overflow-x-auto font-mono">
@@ -199,18 +199,18 @@ CONTRACT_ADDRESS_MAINNET=0x<your_mainnet_address>`,
                                 </pre>
                                 <button
                                   onClick={() => copyToClipboard(step.code, `${section.id}-${i}`)}
-                                  className="absolute top-2 right-2 p-1.5 rounded bg-white/5 hover:bg-white/10 transition-colors opacity-0 group-hover:opacity-100"
+                                  className="absolute top-2 right-2 p-1.5 rounded bg-foreground/5 hover:bg-foreground/10 transition-colors opacity-0 group-hover:opacity-100"
                                 >
                                   {copiedText === `${section.id}-${i}` ? (
                                     <Check className="w-3 h-3 text-green-400" />
                                   ) : (
-                                    <Copy className="w-3 h-3 text-white/40" />
+                                    <Copy className="w-3 h-3 text-foreground/40" />
                                   )}
                                 </button>
                               </div>
                             </div>
                           )}
-                          {step.extra && <p className="text-xs text-white/40 mt-1.5 italic">{step.extra}</p>}
+                          {step.extra && <p className="text-xs text-foreground/40 mt-1.5 italic">{step.extra}</p>}
                           {step.link && (
                             <a
                               href={step.link}

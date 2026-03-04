@@ -69,8 +69,8 @@ export default function Admin() {
         <div className="w-16 h-16 rounded-2xl bg-red-500/10 flex items-center justify-center mb-6">
           <AlertTriangle className="w-8 h-8 text-red-400" />
         </div>
-        <h2 className="text-xl font-semibold text-white mb-2">Access Denied</h2>
-        <p className="text-sm text-white/40">You need admin privileges to view this page.</p>
+        <h2 className="text-xl font-semibold text-foreground mb-2">Access Denied</h2>
+        <p className="text-sm text-foreground/40">You need admin privileges to view this page.</p>
       </div>
     );
   }
@@ -87,9 +87,9 @@ export default function Admin() {
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
         <div className="flex items-center gap-3 mb-2">
           <Shield className="w-5 h-5 text-purple-400" />
-          <h1 className="text-2xl font-bold text-white">Admin Dashboard</h1>
+          <h1 className="text-2xl font-bold text-foreground">Admin Dashboard</h1>
         </div>
-        <p className="text-white/40 text-sm">Monitor mints, manage records, and view analytics.</p>
+        <p className="text-foreground/40 text-sm">Monitor mints, manage records, and view analytics.</p>
       </motion.div>
 
       {/* Stats */}
@@ -101,12 +101,12 @@ export default function Admin() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.05 }}
           >
-            <Card className="glass border-white/[0.06]">
+            <Card className="glass border-foreground/[0.06]">
               <CardContent className="p-5">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-xs text-white/35 uppercase tracking-wider">{stat.title}</p>
-                    <p className="text-2xl font-bold text-white mt-1">{stat.value}</p>
+                    <p className="text-xs text-foreground/35 uppercase tracking-wider">{stat.title}</p>
+                    <p className="text-2xl font-bold text-foreground mt-1">{stat.value}</p>
                   </div>
                   <stat.icon className={`w-5 h-5 ${stat.color}`} />
                 </div>
@@ -124,7 +124,7 @@ export default function Admin() {
         className="mb-8"
       >
         <Tabs defaultValue="overview" className="w-full">
-          <TabsList className="grid w-full grid-cols-3 bg-white/[0.04]">
+          <TabsList className="grid w-full grid-cols-3 bg-foreground/[0.04]">
             <TabsTrigger value="overview">Overview</TabsTrigger>
             <TabsTrigger value="setup">Setup Guide</TabsTrigger>
             <TabsTrigger value="audit">Audit Logs</TabsTrigger>
@@ -150,41 +150,41 @@ export default function Admin() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.4 }}
       >
-        <Card className="glass border-white/[0.06] overflow-hidden">
-          <CardHeader className="border-b border-white/[0.06] p-5">
-            <CardTitle className="text-base font-semibold text-white">Mint Records</CardTitle>
+        <Card className="glass border-foreground/[0.06] overflow-hidden">
+          <CardHeader className="border-b border-foreground/[0.06] p-5">
+            <CardTitle className="text-base font-semibold text-foreground">Mint Records</CardTitle>
           </CardHeader>
           <div className="overflow-x-auto">
             <Table>
               <TableHeader>
-                <TableRow className="border-white/[0.06]">
-                  <TableHead className="text-white/40">NFT</TableHead>
-                  <TableHead className="text-white/40">Wallet</TableHead>
-                  <TableHead className="text-white/40">Token ID</TableHead>
-                  <TableHead className="text-white/40">Status</TableHead>
-                  <TableHead className="text-white/40">Date</TableHead>
-                  <TableHead className="text-white/40">Actions</TableHead>
+                <TableRow className="border-foreground/[0.06]">
+                  <TableHead className="text-foreground/40">NFT</TableHead>
+                  <TableHead className="text-foreground/40">Wallet</TableHead>
+                  <TableHead className="text-foreground/40">Token ID</TableHead>
+                  <TableHead className="text-foreground/40">Status</TableHead>
+                  <TableHead className="text-foreground/40">Date</TableHead>
+                  <TableHead className="text-foreground/40">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {mints.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={6} className="text-center text-white/30 py-8">
+                    <TableCell colSpan={6} className="text-center text-foreground/30 py-8">
                       No mint records yet
                     </TableCell>
                   </TableRow>
                 ) : (
                   mints.map((mint) => (
-                    <TableRow key={mint.id} className="border-white/[0.04] hover:bg-white/[0.02]">
-                      <TableCell className="text-sm text-white font-medium">
+                    <TableRow key={mint.id} className="border-foreground/[0.04] hover:bg-foreground/[0.02]">
+                      <TableCell className="text-sm text-foreground font-medium">
                         {mint.nft_name || `#${mint.token_id}`}
                       </TableCell>
-                      <TableCell className="text-xs text-white/50 font-mono">
+                      <TableCell className="text-xs text-foreground/50 font-mono">
                         {mint.wallet_address
                           ? `${mint.wallet_address.slice(0, 6)}...${mint.wallet_address.slice(-4)}`
                           : "—"}
                       </TableCell>
-                      <TableCell className="text-sm text-white/60">#{mint.token_id || "—"}</TableCell>
+                      <TableCell className="text-sm text-foreground/60">#{mint.token_id || "—"}</TableCell>
                       <TableCell>
                         <Badge
                           className={`text-[10px] ${
@@ -198,7 +198,7 @@ export default function Admin() {
                           {mint.status}
                         </Badge>
                       </TableCell>
-                      <TableCell className="text-xs text-white/40">
+                      <TableCell className="text-xs text-foreground/40">
                         {mint.created_date ? format(new Date(mint.created_date), "MMM d, HH:mm") : "—"}
                       </TableCell>
                       <TableCell>
@@ -206,7 +206,7 @@ export default function Admin() {
                           variant="ghost"
                           size="sm"
                           onClick={() => handleDelete(mint.id)}
-                          className="text-white/30 hover:text-red-400 hover:bg-red-500/10 h-8 w-8 p-0"
+                          className="text-foreground/30 hover:text-red-400 hover:bg-red-500/10 h-8 w-8 p-0"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
                         </Button>
