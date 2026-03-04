@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import { useAccount, useConnect, useDisconnect } from "wagmi";
-import { injected } from "wagmi/connectors";
-import { Wallet, ChevronDown, LogOut, Copy, Check, AlertCircle } from "lucide-react";
+import { Wallet, ChevronDown, LogOut, Copy, Check, AlertCircle, ExternalLink } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function WalletConnectButton({ onAddressChange }) {
   const { address, isConnected } = useAccount();
-  const { connect, isPending, error } = useConnect();
+  const { connect, connectors, isPending, error } = useConnect();
   const { disconnect } = useDisconnect();
   const [showDropdown, setShowDropdown] = useState(false);
   const [copied, setCopied] = useState(false);
+
+  const hasProvider = typeof window !== "undefined" && !!window.ethereum;
 
   // Notify parent of address changes
   React.useEffect(() => {
@@ -17,7 +18,8 @@ export default function WalletConnectButton({ onAddressChange }) {
   }, [address, isConnected]);
 
   const handleConnect = () => {
-    connect({ connector: injected() });
+    const injectedConnector = connectors.find((c) => c.id === "injected") ?? connectors[0];
+    if (injectedConnector) connect({ connector: injectedConnector });
   };
 
   const handleDisconnect = () => {
@@ -76,6 +78,21 @@ export default function WalletConnectButton({ onAddressChange }) {
           )}
         </AnimatePresence>
       </div>
+    );
+  }
+
+  if (!hasProvider) {
+    return (
+      <a
+        href="https://metamask.io/download/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center gap-2 px-3 py-2 bg-yellow-500/10 hover:bg-yellow-500/20 border border-yellow-500/20 text-yellow-400 text-sm rounded-xl transition-colors"
+      >
+        <Wallet className="w-4 h-4" />
+        Install MetaMask
+        <ExternalLink className="w-3 h-3" />
+      </a>
     );
   }
 

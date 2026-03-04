@@ -1,22 +1,23 @@
 import React, { useState } from "react";
 import { base44 } from "@/api/base44Client";
 import { useAccount, useConnect, useDisconnect } from "wagmi";
-import { injected } from "wagmi/connectors";
-import { Wallet, Check, AlertCircle, Link as LinkIcon, Unlink } from "lucide-react";
+import { Wallet, Check, AlertCircle, Link as LinkIcon, Unlink, ExternalLink } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function WalletLinkSection({ userProfile, onProfileUpdate }) {
   const { address, isConnected } = useAccount();
-  const { connect, isPending } = useConnect();
+  const { connect, connectors, isPending } = useConnect();
   const { disconnect } = useDisconnect();
   const [linking, setLinking] = useState(false);
   const [error, setError] = useState(null);
 
+  const hasProvider = typeof window !== "undefined" && !!window.ethereum;
   const short = (addr) => `${addr.slice(0, 6)}...${addr.slice(-4)}`;
   const isLinked = !!userProfile?.wallet_address;
 
   const handleConnect = () => {
-    connect({ connector: injected() });
+    const injectedConnector = connectors.find((c) => c.id === "injected") ?? connectors[0];
+    if (injectedConnector) connect({ connector: injectedConnector });
   };
 
   const handleLink = async () => {
@@ -98,6 +99,18 @@ export default function WalletLinkSection({ userProfile, onProfileUpdate }) {
       <div className="text-sm text-foreground/50 font-medium">Link Your Wallet</div>
 
       {!isConnected ? (
+        !hasProvider ? (
+          <a
+            href="https://metamask.io/download/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full flex items-center justify-center gap-2 border border-yellow-500/20 bg-yellow-500/10 text-yellow-400 hover:bg-yellow-500/20 rounded-xl h-11 text-sm font-medium transition-colors"
+          >
+            <Wallet className="w-4 h-4" />
+            Install MetaMask to continue
+            <ExternalLink className="w-3.5 h-3.5" />
+          </a>
+        ) : (
         <button
           onClick={handleConnect}
           disabled={isPending}
@@ -106,6 +119,7 @@ export default function WalletLinkSection({ userProfile, onProfileUpdate }) {
           <Wallet className="w-4 h-4 mr-2" />
           {isPending ? "Connecting..." : "Connect MetaMask"}
         </button>
+        )
       ) : (
         <div className="space-y-2">
           <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-foreground/[0.04] border border-foreground/[0.08]">
