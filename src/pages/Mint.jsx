@@ -94,8 +94,8 @@ export default function Mint() {
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20">
       {/* Header */}
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
-        <h1 className="text-3xl sm:text-4xl font-bold text-white mb-3">Free Mint</h1>
-        <p className="text-white/40 max-w-md mx-auto">
+        <h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-3">Free Mint</h1>
+        <p className="text-foreground/50 max-w-md mx-auto">
           Sign in, link your wallet, and claim your Genesis NFT. We cover all gas fees.
         </p>
       </motion.div>
@@ -142,8 +142,8 @@ export default function Mint() {
               <div className="w-16 h-16 rounded-2xl bg-purple-500/10 flex items-center justify-center mx-auto mb-6">
                 <Shield className="w-8 h-8 text-purple-400" />
               </div>
-              <h3 className="text-xl font-semibold text-white mb-2">Sign In Required</h3>
-              <p className="text-sm text-white/40 mb-6">
+              <h3 className="text-xl font-semibold text-foreground mb-2">Sign In Required</h3>
+              <p className="text-sm text-foreground/50 mb-6">
                 Connect with Google or Facebook to start minting. OAuth-only — no passwords stored.
               </p>
               <Button
@@ -156,13 +156,13 @@ export default function Mint() {
           ) : (
             <div className="space-y-5">
               {/* User info */}
-              <div className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.03]">
+              <div className="flex items-center gap-3 p-3 rounded-xl bg-foreground/[0.03]">
                 <div className="w-9 h-9 rounded-full bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center text-sm font-semibold text-white">
                   {(user?.full_name || user?.email || "U")[0].toUpperCase()}
                 </div>
                 <div>
-                  <div className="text-sm font-medium text-white">{user?.full_name || "User"}</div>
-                  <div className="text-xs text-white/30">{user?.email}</div>
+                  <div className="text-sm font-medium text-foreground">{user?.full_name || "User"}</div>
+                  <div className="text-xs text-foreground/40">{user?.email}</div>
                 </div>
               </div>
 
@@ -209,14 +209,14 @@ export default function Mint() {
                     </div>
                     {mintResult.nft_name && (
                       <div className="flex justify-between text-xs">
-                        <span className="text-white/40">Name</span>
-                        <span className="text-white font-medium">{mintResult.nft_name}</span>
+                        <span className="text-foreground/50">Name</span>
+                        <span className="text-foreground font-medium">{mintResult.nft_name}</span>
                       </div>
                     )}
                     {mintResult.token_id && (
                       <div className="flex justify-between text-xs">
-                        <span className="text-white/40">Token ID</span>
-                        <span className="text-white font-mono">#{mintResult.token_id}</span>
+                        <span className="text-foreground/50">Token ID</span>
+                        <span className="text-foreground font-mono">#{mintResult.token_id}</span>
                       </div>
                     )}
                     {mintResult.tx_hash && (
@@ -237,7 +237,7 @@ export default function Mint() {
               {/* Mint button — disabled if wallet not linked or minting */}
               {!walletLinked ? (
                 <div className="text-center py-2">
-                  <p className="text-sm text-white/30">Link your wallet above to enable minting.</p>
+                  <p className="text-sm text-foreground/40">Link your wallet above to enable minting.</p>
                 </div>
               ) : (
                 <MintButton
@@ -255,7 +255,7 @@ export default function Mint() {
 
       {/* Security note */}
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }} className="mt-12 text-center">
-        <p className="text-xs text-white/20 max-w-md mx-auto leading-relaxed">
+        <p className="text-xs text-foreground/35 max-w-md mx-auto leading-relaxed">
           <Shield className="w-3 h-3 inline-block mr-1 -mt-0.5" />
           Transactions are signed server-side. Your private keys are never exposed.
           OAuth 2.0 with PKCE ensures secure authentication.

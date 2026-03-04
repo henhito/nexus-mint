@@ -75,7 +75,7 @@ export default function Home() {
               For Free
             </h1>
 
-            <p className="text-lg text-white/40 leading-relaxed max-w-lg mb-8">
+            <p className="text-lg text-foreground/50 leading-relaxed max-w-lg mb-8">
               No gas fees. No crypto wallet required. Sign in with Google or Facebook,
               provide your wallet address, and we sponsor the transaction server-side.
             </p>
@@ -98,13 +98,13 @@ export default function Home() {
                 </Link>
               )}
               <Link to={createPageUrl("Gallery")}>
-                <Button variant="ghost" className="text-white/50 hover:text-white hover:bg-white/[0.06] px-6 py-6 text-base rounded-xl">
+                <Button variant="ghost" className="text-foreground/50 hover:text-foreground hover:bg-foreground/[0.06] px-6 py-6 text-base rounded-xl">
                   View Gallery
                 </Button>
               </Link>
             </div>
 
-            <div className="flex items-center gap-6 mt-10 text-sm text-white/30">
+            <div className="flex items-center gap-6 mt-10 text-sm text-foreground/40">
               <div className="flex items-center gap-2">
                 <Users className="w-4 h-4" />
                 <span>1,000+ Minted</span>
@@ -133,8 +133,8 @@ export default function Home() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-14"
         >
-          <h2 className="text-3xl font-bold text-white mb-3">Why GenesisNFT?</h2>
-          <p className="text-white/35 max-w-md mx-auto">
+          <h2 className="text-3xl font-bold text-foreground mb-3">Why GenesisNFT?</h2>
+          <p className="text-foreground/45 max-w-md mx-auto">
             A secure, gasless NFT minting experience powered by modern Web3 infrastructure.
           </p>
         </motion.div>
@@ -153,7 +153,7 @@ export default function Home() {
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-3xl font-bold text-white mb-3"
+              className="text-3xl font-bold text-foreground mb-3"
             >
               Roadmap
             </motion.h2>
@@ -161,7 +161,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="text-white/35 mb-10"
+              className="text-foreground/45 mb-10"
             >
               Our journey from testnet to a full ecosystem.
             </motion.p>
@@ -179,7 +179,7 @@ export default function Home() {
             transition={{ delay: 0.3 }}
             className="glass rounded-2xl p-8"
           >
-            <h3 className="text-xl font-bold text-white mb-4">Security Architecture</h3>
+            <h3 className="text-xl font-bold text-foreground mb-4">Security Architecture</h3>
             <div className="space-y-4">
               {[
                 { label: "Authentication", detail: "OAuth 2.0 + PKCE via Google & Microsoft. Zero passwords stored." },
@@ -198,8 +198,8 @@ export default function Home() {
                 >
                   <div className="w-1.5 h-1.5 rounded-full bg-purple-500 mt-2 flex-shrink-0" />
                   <div>
-                    <div className="text-sm font-medium text-white">{item.label}</div>
-                    <div className="text-xs text-white/35 mt-0.5">{item.detail}</div>
+                    <div className="text-sm font-medium text-foreground">{item.label}</div>
+                    <div className="text-xs text-foreground/45 mt-0.5">{item.detail}</div>
                   </div>
                 </motion.div>
               ))}
@@ -214,10 +214,10 @@ export default function Home() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
         >
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
+          <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">
             Ready to mint?
           </h2>
-          <p className="text-white/35 mb-8 max-w-md mx-auto">
+          <p className="text-foreground/45 mb-8 max-w-md mx-auto">
             Sign in, enter your wallet address, and claim your free Genesis NFT in seconds.
           </p>
           {authState === "unauthenticated" || authState === "loading" ? (

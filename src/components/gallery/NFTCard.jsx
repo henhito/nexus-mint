@@ -43,11 +43,11 @@ export default function NFTCard({ mint, index, network }) {
 
       {/* Info */}
       <div className="p-4">
-        <h3 className="font-semibold text-white text-sm truncate">
+        <h3 className="font-semibold text-foreground text-sm truncate">
           {mint.nft_name || `Genesis #${mint.token_id || "?"}`}
         </h3>
         <div className="flex items-center justify-between mt-2">
-          <span className="text-xs text-white/30">
+          <span className="text-xs text-foreground/40">
             {mint.mint_date ? format(new Date(mint.mint_date), "MMM d, yyyy") : ""}
           </span>
           {mint.tx_hash && (

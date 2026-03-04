@@ -78,13 +78,13 @@ export default function WalletLinkSection({ userProfile, onProfileUpdate }) {
           </div>
           <div>
             <div className="text-xs text-green-400/80 font-medium">Wallet Linked</div>
-            <div className="text-sm text-white font-mono">{short(userProfile.wallet_address)}</div>
+            <div className="text-sm text-foreground font-mono">{short(userProfile.wallet_address)}</div>
           </div>
         </div>
         <button
           onClick={handleUnlink}
           disabled={linking}
-          className="flex items-center gap-1.5 text-xs text-white/30 hover:text-red-400 transition-colors"
+          className="flex items-center gap-1.5 text-xs text-foreground/40 hover:text-red-400 transition-colors"
         >
           <Unlink className="w-3.5 h-3.5" />
           Unlink
@@ -95,22 +95,22 @@ export default function WalletLinkSection({ userProfile, onProfileUpdate }) {
 
   return (
     <div className="space-y-3">
-      <div className="text-sm text-white/50 font-medium">Link Your Wallet</div>
+      <div className="text-sm text-foreground/50 font-medium">Link Your Wallet</div>
 
       {!isConnected ? (
         <button
           onClick={handleConnect}
           disabled={isPending}
-          className="w-full flex items-center justify-center border border-white/[0.1] bg-white/[0.04] text-white hover:bg-white/[0.08] rounded-xl h-11 text-sm font-medium transition-colors disabled:opacity-50"
+          className="w-full flex items-center justify-center border border-foreground/[0.1] bg-foreground/[0.04] text-foreground hover:bg-foreground/[0.08] rounded-xl h-11 text-sm font-medium transition-colors disabled:opacity-50"
         >
           <Wallet className="w-4 h-4 mr-2" />
           {isPending ? "Connecting..." : "Connect MetaMask"}
         </button>
       ) : (
         <div className="space-y-2">
-          <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/[0.04] border border-white/[0.08]">
+          <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-foreground/[0.04] border border-foreground/[0.08]">
             <div className="w-2 h-2 rounded-full bg-green-400" />
-            <span className="text-sm text-white font-mono">{short(address)}</span>
+            <span className="text-sm text-foreground font-mono">{short(address)}</span>
           </div>
           <button
             onClick={handleLink}
@@ -130,7 +130,7 @@ export default function WalletLinkSection({ userProfile, onProfileUpdate }) {
         </p>
       )}
 
-      <p className="text-xs text-white/25">
+      <p className="text-xs text-foreground/35">
         Your wallet is securely linked server-side. We never ask for signatures or seed phrases.
       </p>
     </div>

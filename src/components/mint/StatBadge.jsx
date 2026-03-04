@@ -9,8 +9,8 @@ export default function StatBadge({ label, value, icon: Icon }) {
         </div>
       )}
       <div>
-        <div className="text-xs text-white/40 uppercase tracking-wider font-medium">{label}</div>
-        <div className="text-lg font-semibold text-white mt-0.5">{value}</div>
+        <div className="text-xs text-foreground/50 uppercase tracking-wider font-medium">{label}</div>
+        <div className="text-lg font-semibold text-foreground mt-0.5">{value}</div>
       </div>
     </div>
   );
