@@ -1,14 +1,15 @@
 import React, { useState } from "react";
-import { useAccount, useConnect, useDisconnect } from "wagmi";
+import { useAccount, useDisconnect } from "wagmi";
 import { Wallet, ChevronDown, LogOut, Copy, Check, AlertCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function WalletConnectButton({ onAddressChange }) {
   const { address, isConnected } = useAccount();
-  const { connect, connectors, isPending, error } = useConnect();
   const { disconnect } = useDisconnect();
   const [showDropdown, setShowDropdown] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [isConnecting, setIsConnecting] = useState(false);
+  const [connectError, setConnectError] = useState("");
 
   // Notify parent of address changes
   React.useEffect(() => {
@@ -17,13 +18,25 @@ export default function WalletConnectButton({ onAddressChange }) {
 
   const hasProvider = typeof window !== "undefined" && !!window.ethereum;
 
-  const handleConnect = () => {
+  const handleConnect = async () => {
     if (!hasProvider) {
       window.open("https://metamask.io/download/", "_blank");
       return;
     }
-    const injectedConnector = connectors.find((c) => c.id === "injected");
-    connect({ connector: injectedConnector ?? connectors[0] });
+    setConnectError("");
+    setIsConnecting(true);
+    try {
+      await window.ethereum.request({ method: "eth_requestAccounts" });
+      // wagmi picks up the connection automatically via its accountsChanged listener
+    } catch (err) {
+      if (err.code === 4001) {
+        setConnectError("Connection rejected. Please approve in your wallet.");
+      } else {
+        setConnectError(err.message || "Connection failed. Try again.");
+      }
+    } finally {
+      setIsConnecting(false);
+    }
   };
 
   const handleDisconnect = () => {
@@ -89,11 +102,11 @@ export default function WalletConnectButton({ onAddressChange }) {
     <div className="space-y-1">
       <button
         onClick={handleConnect}
-        disabled={isPending}
+        disabled={isConnecting}
         className="flex items-center gap-2 px-3 py-2 bg-foreground/[0.08] hover:bg-foreground/[0.12] border border-foreground/[0.12] text-foreground text-sm rounded-xl transition-colors disabled:opacity-50"
       >
         <Wallet className="w-4 h-4" />
-        {isPending ? "Connecting..." : hasProvider ? "Connect Wallet" : "Install MetaMask"}
+        {isConnecting ? "Connecting..." : hasProvider ? "Connect Wallet" : "Install MetaMask"}
       </button>
       {!hasProvider && (
         <p className="flex items-center gap-1 text-xs text-foreground/40">
@@ -101,12 +114,10 @@ export default function WalletConnectButton({ onAddressChange }) {
           No wallet detected
         </p>
       )}
-      {hasProvider && error && (
+      {connectError && (
         <p className="flex items-center gap-1 text-xs text-red-400">
           <AlertCircle className="w-3 h-3" />
-          {error.name === "ConnectorAlreadyConnectedError"
-            ? "Already connected"
-            : error.shortMessage || "Connection failed. Try again."}
+          {connectError}
         </p>
       )}
     </div>
