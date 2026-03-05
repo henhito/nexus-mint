@@ -1,15 +1,14 @@
 import React from "react";
 import { WagmiProvider, createConfig, http } from "wagmi";
-import { polygon, polygonAmoy } from "wagmi/chains";
+import { polygonAmoy } from "wagmi/chains";
 import { injected } from "wagmi/connectors";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const config = createConfig({
-  chains: [polygonAmoy, polygon],
+  chains: [polygonAmoy],
   connectors: [injected()],
   transports: {
-    [polygonAmoy.id]: http(),
-    [polygon.id]: http(),
+    [polygonAmoy.id]: http("https://rpc-amoy.polygon.technology"),
   },
 });
 

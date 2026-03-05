@@ -1,6 +1,17 @@
 import { createClientFromRequest } from "npm:@base44/sdk@0.8.6";
+import { createWalletClient, createPublicClient, http as viemHttp, parseAbi } from "npm:viem@2";
+import { privateKeyToAccount } from "npm:viem@2/accounts";
+import { polygonAmoy } from "npm:viem@2/chains";
 
-const POLYGON_NETWORK = Deno.env.get("POLYGON_NETWORK") || "amoy";
+const POLYGON_NETWORK = "amoy";
+const CONTRACT_ADDRESS = Deno.env.get("CONTRACT_ADDRESS_AMOY") || "";
+const RELAYER_PRIVATE_KEY = Deno.env.get("RELAYER_PRIVATE_KEY") || "";
+const RPC_URL = Deno.env.get("RPC_URL_AMOY") || "https://rpc-amoy.polygon.technology";
+
+const NFT_ABI = parseAbi([
+  "function safeMint(address to, uint256 tokenId) external",
+]);
+
 const MAX_MINTS_PER_USER = 3;
 
 Deno.serve(async (req) => {
@@ -86,17 +97,46 @@ Deno.serve(async (req) => {
       console.error("Image generation failed:", e);
     }
 
-    // 7. Simulate blockchain transaction (replace with real ethers.js signing in production)
-    const fakeTxHash = `0x${Array.from({ length: 64 }, () =>
-      Math.floor(Math.random() * 16).toString(16)
-    ).join("")}`;
+    // 7. Submit real transaction to the blockchain
+    if (!RELAYER_PRIVATE_KEY || !CONTRACT_ADDRESS) {
+      return Response.json(
+        { error: "Blockchain minting is not configured. Please contact the administrator." },
+        { status: 503, headers: corsHeaders }
+      );
+    }
+
+    const chain = polygonAmoy;
+    const account = privateKeyToAccount(
+      RELAYER_PRIVATE_KEY.startsWith("0x")
+        ? RELAYER_PRIVATE_KEY as `0x${string}`
+        : `0x${RELAYER_PRIVATE_KEY}` as `0x${string}`
+    );
+    const walletClient = createWalletClient({
+      account,
+      chain,
+      transport: viemHttp(RPC_URL),
+    });
+    const publicClient = createPublicClient({
+      chain,
+      transport: viemHttp(RPC_URL),
+    });
+
+    const txHash = await walletClient.writeContract({
+      address: CONTRACT_ADDRESS as `0x${string}`,
+      abi: NFT_ABI,
+      functionName: "safeMint",
+      args: [walletAddress as `0x${string}`, BigInt(tokenId)],
+    });
+
+    // Wait for the transaction to be included in a block
+    await publicClient.waitForTransactionReceipt({ hash: txHash });
 
     // 8. Save MintRequest record
     const mintRecord = await base44.entities.MintRequest.create({
       user_id: user.id,
       wallet_address: walletAddress,
       token_id: tokenId,
-      tx_hash: fakeTxHash,
+      tx_hash: txHash,
       network: POLYGON_NETWORK,
       status: "confirmed",
       ip_address: ipAddress,
@@ -115,7 +155,7 @@ Deno.serve(async (req) => {
       user_id: user.id,
       ip_address: ipAddress,
       severity: "info",
-      details: { token_id: tokenId, wallet_address: walletAddress, tx_hash: fakeTxHash },
+      details: { token_id: tokenId, wallet_address: walletAddress, tx_hash: txHash },
     }).catch(() => {});
 
     return Response.json(
@@ -124,13 +164,11 @@ Deno.serve(async (req) => {
         mint: {
           id: mintRecord.id,
           tokenId,
-          txHash: fakeTxHash,
+          txHash,
           nftName,
           imageUrl,
           network: POLYGON_NETWORK,
-          explorerUrl: POLYGON_NETWORK === "mainnet"
-            ? `https://polygonscan.com/tx/${fakeTxHash}`
-            : `https://amoy.polygonscan.com/tx/${fakeTxHash}`,
+          explorerUrl: `https://amoy.polygonscan.com/tx/${txHash}`,
         },
       },
       { headers: corsHeaders }
