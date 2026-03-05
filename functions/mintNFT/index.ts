@@ -1,16 +1,12 @@
 import { createClientFromRequest } from "npm:@base44/sdk@0.8.6";
 import { createWalletClient, createPublicClient, http as viemHttp, parseAbi } from "npm:viem@2";
 import { privateKeyToAccount } from "npm:viem@2/accounts";
-import { polygon, polygonAmoy } from "npm:viem@2/chains";
+import { polygonAmoy } from "npm:viem@2/chains";
 
-const POLYGON_NETWORK = Deno.env.get("POLYGON_NETWORK") || "amoy";
-const CONTRACT_ADDRESS = POLYGON_NETWORK === "mainnet"
-  ? Deno.env.get("CONTRACT_ADDRESS_MAINNET") || ""
-  : Deno.env.get("CONTRACT_ADDRESS_AMOY") || "";
+const POLYGON_NETWORK = "amoy";
+const CONTRACT_ADDRESS = Deno.env.get("CONTRACT_ADDRESS_AMOY") || "";
 const RELAYER_PRIVATE_KEY = Deno.env.get("RELAYER_PRIVATE_KEY") || "";
-const RPC_URL = POLYGON_NETWORK === "mainnet"
-  ? (Deno.env.get("RPC_URL_MAINNET") || "https://polygon-rpc.com")
-  : (Deno.env.get("RPC_URL_AMOY") || "https://rpc-amoy.polygon.technology");
+const RPC_URL = Deno.env.get("RPC_URL_AMOY") || "https://rpc-amoy.polygon.technology";
 
 const NFT_ABI = parseAbi([
   "function safeMint(address to, uint256 tokenId) external",
@@ -109,7 +105,7 @@ Deno.serve(async (req) => {
       );
     }
 
-    const chain = POLYGON_NETWORK === "mainnet" ? polygon : polygonAmoy;
+    const chain = polygonAmoy;
     const account = privateKeyToAccount(
       RELAYER_PRIVATE_KEY.startsWith("0x")
         ? RELAYER_PRIVATE_KEY as `0x${string}`
@@ -172,9 +168,7 @@ Deno.serve(async (req) => {
           nftName,
           imageUrl,
           network: POLYGON_NETWORK,
-          explorerUrl: POLYGON_NETWORK === "mainnet"
-            ? `https://polygonscan.com/tx/${txHash}`
-            : `https://amoy.polygonscan.com/tx/${txHash}`,
+          explorerUrl: `https://amoy.polygonscan.com/tx/${txHash}`,
         },
       },
       { headers: corsHeaders }
