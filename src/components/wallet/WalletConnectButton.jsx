@@ -15,13 +15,15 @@ export default function WalletConnectButton({ onAddressChange }) {
     onAddressChange?.(isConnected ? address : "");
   }, [address, isConnected]);
 
+  const hasProvider = typeof window !== "undefined" && !!window.ethereum;
+
   const handleConnect = () => {
-    const injectedConnector = connectors.find((c) => c.id === "injected");
-    if (injectedConnector) {
-      connect({ connector: injectedConnector });
-    } else {
-      connect({ connector: connectors[0] });
+    if (!hasProvider) {
+      window.open("https://metamask.io/download/", "_blank");
+      return;
     }
+    const injectedConnector = connectors.find((c) => c.id === "injected");
+    connect({ connector: injectedConnector ?? connectors[0] });
   };
 
   const handleDisconnect = () => {
@@ -91,12 +93,20 @@ export default function WalletConnectButton({ onAddressChange }) {
         className="flex items-center gap-2 px-3 py-2 bg-foreground/[0.08] hover:bg-foreground/[0.12] border border-foreground/[0.12] text-foreground text-sm rounded-xl transition-colors disabled:opacity-50"
       >
         <Wallet className="w-4 h-4" />
-        {isPending ? "Connecting..." : "Connect Wallet"}
+        {isPending ? "Connecting..." : hasProvider ? "Connect Wallet" : "Install MetaMask"}
       </button>
-      {error && (
+      {!hasProvider && (
+        <p className="flex items-center gap-1 text-xs text-foreground/40">
+          <AlertCircle className="w-3 h-3" />
+          No wallet detected
+        </p>
+      )}
+      {hasProvider && error && (
         <p className="flex items-center gap-1 text-xs text-red-400">
           <AlertCircle className="w-3 h-3" />
-          {error.shortMessage || "Connection failed"}
+          {error.name === "ConnectorAlreadyConnectedError"
+            ? "Already connected"
+            : error.shortMessage || "Connection failed. Try again."}
         </p>
       )}
     </div>
