@@ -1,0 +1,47 @@
+{
+  "name": "AuditLog",
+  "type": "object",
+  "properties": {
+    "event_type": {
+      "type": "string",
+      "enum": [
+        "mint_request",
+        "mint_success",
+        "mint_failure",
+        "rate_limit_hit",
+        "invalid_wallet",
+        "admin_action"
+      ],
+      "description": "Type of event logged"
+    },
+    "user_id": {
+      "type": "string",
+      "description": "User ID (if authenticated)"
+    },
+    "ip_address": {
+      "type": "string",
+      "description": "Request IP address"
+    },
+    "details": {
+      "type": "object",
+      "description": "Additional event details"
+    },
+    "severity": {
+      "type": "string",
+      "enum": [
+        "info",
+        "warning",
+        "error"
+      ],
+      "default": "info"
+    },
+    "user_agent": {
+      "type": "string",
+      "description": "Browser user agent"
+    }
+  },
+  "required": [
+    "event_type",
+    "severity"
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "name": "Notification",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "User ID of recipient"
+    },
+    "user_email": {
+      "type": "string",
+      "description": "User email for frontend filtering"
+    },
+    "title": {
+      "type": "string",
+      "description": "Notification title"
+    },
+    "message": {
+      "type": "string",
+      "description": "Notification message body"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "success",
+        "error",
+        "info"
+      ],
+      "default": "info",
+      "description": "Notification type"
+    },
+    "read": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the notification has been read"
+    },
+    "mint_request_id": {
+      "type": "string",
+      "description": "Related MintRequest ID"
+    }
+  },
+  "required": [
+    "user_id",
+    "title",
+    "message",
+    "type"
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "name": "Allowlist",
+  "type": "object",
+  "properties": {
+    "wallet_address": {
+      "type": "string",
+      "description": "Allowlisted wallet address"
+    },
+    "email": {
+      "type": "string",
+      "description": "Associated email (optional)"
+    },
+    "max_mints": {
+      "type": "number",
+      "default": 3,
+      "description": "Max mints allowed for this wallet"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether allowlist entry is active"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Admin notes"
+    }
+  },
+  "required": [
+    "wallet_address"
+  ]
+}

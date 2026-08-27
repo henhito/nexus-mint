@@ -1,0 +1,27 @@
+{
+  "name": "UserProfile",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "User ID from auth system"
+    },
+    "wallet_address": {
+      "type": "string",
+      "description": "Linked wallet address"
+    },
+    "wallet_verified": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the wallet has been verified"
+    },
+    "minted_count": {
+      "type": "number",
+      "default": 0,
+      "description": "Number of NFTs minted by this user"
+    }
+  },
+  "required": [
+    "user_id"
+  ]
+}

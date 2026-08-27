@@ -1,0 +1,66 @@
+{
+  "name": "MintRequest",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "User ID from auth system"
+    },
+    "wallet_address": {
+      "type": "string",
+      "description": "Recipient wallet address"
+    },
+    "token_id": {
+      "type": "string",
+      "description": "Minted NFT token ID"
+    },
+    "token_uri": {
+      "type": "string",
+      "description": "IPFS metadata URI"
+    },
+    "tx_hash": {
+      "type": "string",
+      "description": "Transaction hash on Polygon"
+    },
+    "network": {
+      "type": "string",
+      "enum": [
+        "amoy",
+        "mainnet"
+      ],
+      "default": "amoy",
+      "description": "Polygon network"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "confirmed",
+        "failed"
+      ],
+      "default": "pending",
+      "description": "Mint transaction status"
+    },
+    "ip_address": {
+      "type": "string",
+      "description": "User IP for rate limiting"
+    },
+    "nft_name": {
+      "type": "string",
+      "description": "Generated NFT name"
+    },
+    "image_url": {
+      "type": "string",
+      "description": "NFT image URL"
+    },
+    "error_message": {
+      "type": "string",
+      "description": "Error details if failed"
+    }
+  },
+  "required": [
+    "user_id",
+    "wallet_address",
+    "status"
+  ]
+}
