@@ -1,0 +1,38 @@
+{
+  "name": "Mint Status Notification",
+  "description": "Fires sendMintNotification whenever a MintRequest is created or updated, creating in-app notifications for confirmed or failed mints.",
+  "trigger": {
+    "condition": null,
+    "config": {
+      "trigger_type": "entity",
+      "events": [
+        "update",
+        "create"
+      ],
+      "entity_name": "MintRequest"
+    }
+  },
+  "definition": {
+    "document": {
+      "dsl": "1.0.0",
+      "name": "mint_status_notification",
+      "version": "1.0",
+      "namespace": "base44"
+    },
+    "do": [
+      {
+        "run_function": {
+          "call": "invoke_backend_function",
+          "with": {
+            "function_name": "sendMintNotification/index",
+            "args": {}
+          },
+          "then": "end"
+        }
+      }
+    ]
+  },
+  "x-base44-migrated-from-automation": {
+    "legacy_payload_function": "sendMintNotification/index"
+  }
+}
